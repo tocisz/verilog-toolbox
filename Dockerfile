@@ -34,3 +34,8 @@ RUN git clone https://github.com/SRI-CSL/yices2.git yices2 &&\
 RUN git clone https://github.com/Z3Prover/z3.git z3 &&\
     cd z3 && python scripts/mk_make.py && cd build && make -j$(nproc) && make install &&\
     cd /root && rm -rf z3
+
+RUN git clone https://github.com/boolector/boolector &&\
+    cd boolector && ./contrib/setup-btor2tools.sh && ./contrib/setup-lingeling.sh && ./configure.sh &&\
+    make -C build -j$(nproc) && cp build/bin/{boolector,btor*} /usr/local/bin/ && cp deps/btor2tools/bin/btorsim /usr/local/bin/ &&\
+    cd /root && rm -rf boolector
