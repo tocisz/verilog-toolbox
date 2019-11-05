@@ -1,13 +1,11 @@
 FROM ubuntu
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -y manpages build-essential clang bison flex libreadline-dev \
+RUN yes | unminimize && apt-get update &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -y man-db build-essential clang bison flex libreadline-dev \
                      gawk tcl-dev libffi-dev git mercurial graphviz   \
                      xdot pkg-config python python3 libftdi-dev gperf \
                      libboost-program-options-dev autoconf libgmp-dev \
                      cmake curl &&\
     rm -rf /var/lib/apt/lists/*
-# TODO install man manpages ?
-# https://stackoverflow.com/questions/54152906/how-to-install-man-pages-on-an-ubuntu-docker-image
 
 RUN apt-get install libfl2 && apt-get install libfl-dev || true ; rm -rf /var/lib/apt/lists/*
 
@@ -15,9 +13,8 @@ VOLUME /root
 WORKDIR /root
 
 RUN git clone http://git.veripool.org/git/verilator &&\
-    cd verilator && autoconf && ./configure && make install &&\
+    cd verilator && autoconf && ./configure && make -j$(nproc) && make install &&\
     cd .. && rm -rf verilator
-# TODO -j$(nproc) above
 
 RUN git clone https://github.com/YosysHQ/yosys.git yosys &&\
     cd yosys && make -j$(nproc) && make install &&\
