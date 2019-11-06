@@ -1,10 +1,10 @@
 FROM ubuntu
 RUN yes | unminimize && apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -y man-db build-essential clang bison flex libreadline-dev \
-                     gawk tcl-dev libffi-dev git mercurial graphviz   \
-                     xdot pkg-config python python3 libftdi-dev gperf \
-                     libboost-program-options-dev autoconf libgmp-dev \
-                     cmake curl &&\
+     gawk tcl-dev libffi-dev git mercurial graphviz   \
+     xdot pkg-config python python3 libftdi-dev gperf \
+     libboost-program-options-dev autoconf libgmp-dev \
+     cmake curl &&\
     rm -rf /var/lib/apt/lists/*
 
 RUN apt-get install libfl2 && apt-get install libfl-dev || true ; rm -rf /var/lib/apt/lists/*
@@ -34,5 +34,5 @@ RUN git clone https://github.com/Z3Prover/z3.git z3 &&\
 
 RUN git clone https://github.com/boolector/boolector &&\
     cd boolector && ./contrib/setup-btor2tools.sh && ./contrib/setup-lingeling.sh && ./configure.sh &&\
-    make -C build -j$(nproc) && cp build/bin/{boolector,btor*} /usr/local/bin/ && cp deps/btor2tools/bin/btorsim /usr/local/bin/ &&\
+    make -C build -j$(nproc) && ls -l build/bin && cp build/bin/* /usr/local/bin/ && cp deps/btor2tools/bin/btorsim /usr/local/bin/ &&\
     cd /root && rm -rf boolector
