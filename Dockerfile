@@ -34,5 +34,5 @@ RUN git clone https://github.com/Z3Prover/z3.git z3 &&\
 
 RUN git clone https://github.com/boolector/boolector &&\
     cd boolector && ./contrib/setup-btor2tools.sh && ./contrib/setup-lingeling.sh && ./configure.sh &&\
-    make -C build -j$(nproc) && ls -l build/bin && cp build/bin/* /usr/local/bin/ && cp deps/btor2tools/bin/btorsim /usr/local/bin/ &&\
+    make -C build -j$(nproc) && cp build/bin/boolector build/bin/btor* /usr/local/bin/ && cp deps/btor2tools/bin/btorsim /usr/local/bin/ &&\
     cd /root && rm -rf boolector
